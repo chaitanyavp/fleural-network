@@ -112,6 +112,8 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        cameraButton.callOnClick();
+
         ImageButton galleryButton = (ImageButton) findViewById(R.id.galleryButton);
         galleryButton.setOnClickListener(new View.OnClickListener() {
             @Override

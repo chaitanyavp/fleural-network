@@ -39,55 +39,27 @@ class RecognitionResultBuilder {
 
         FlexboxLayout imageTagContainer = (FlexboxLayout)context.getLayoutInflater().inflate(R.layout.tag_box, null);
 
-        // First process facial data from Visual Recognition. For each feature create an image tag with a name and score.
-        List<ImageFace> potentialFaces = detectedFaces.getImages();
-        for (int i = 0; i < potentialFaces.size(); i++) {
-            List<Face> allFaces = potentialFaces.get(i).getFaces();
-            if (allFaces == null) {break;}
-            for (Face face : allFaces) {
-                if (face.getIdentity() != null) {
-                    String formattedScore = String.format(Locale.US, "%.0f", face.getIdentity().getScore() * 100) + "%";
-                    imageTagContainer.addView(constructImageTag(context.getLayoutInflater(),
-                            face.getIdentity().getName(), formattedScore));
-                }
-
-                String faceResult = "";
-                String faceScore = "";
-
-                Face.Gender gender = face.getGender();
-                if (gender.getGender() != null) {
-                    faceResult += gender.getGender();
-                    faceScore += String.format(Locale.US, "%.0f", gender.getScore() * 100) + "%";
-                } else {
-                    faceResult += "Unknown Gender";
-                    faceScore += "N/A";
-                }
-
-                Face.Age age = face.getAge();
-                if (age != null) {
-                    if (age.getMin() == null) {age.setMin(0);}
-                    if (age.getMax() == null) {age.setMax(age.getMin()+15);}
-                    faceResult += " (" + age.getMin() + " - " + age.getMax() + ")";
-                    faceScore += " (" + String.format(Locale.US, "%.0f", age.getScore() * 100) + "%)";
-                }
-                imageTagContainer.addView(constructImageTag(context.getLayoutInflater(), faceResult, faceScore));
-            }
-        }
-
         // Next process general classification data from Visual Recognition and create image tags for each visual class.
         List<ImageClassification> classifications = visualClassification.getImages();
 
         for (int i = 0; i < classifications.size(); i++) {
             List<VisualClassifier> classifiers = classifications.get(i).getClassifiers();
             if (classifiers == null) break;
-            for (int j = 0; j < classifiers.size(); j++) {
-                List<VisualClassifier.VisualClass> visualClasses = classifiers.get(j).getClasses();
-                if (visualClasses == null) break;
-                for (VisualClassifier.VisualClass visualClass : visualClasses) {
-                    String formattedScore = String.format(Locale.US, "%.0f", visualClass.getScore() * 100) + "%";
-                    imageTagContainer.addView(constructImageTag(context.getLayoutInflater(), visualClass.getName(), formattedScore));
-                }
+
+
+
+            List<VisualClassifier.VisualClass> visualClasses = classifiers.get(0).getClasses();
+            if (visualClasses == null) break;
+
+            System.out.println(visualClasses.get(0).getName());
+
+            for (VisualClassifier.VisualClass visualClass : visualClasses) {
+                String formattedScore = String.format(Locale.US, "%.0f", visualClass.getScore() * 100) + "%";
+                imageTagContainer.addView(constructImageTag(context.getLayoutInflater(), visualClass.getName(), formattedScore));
             }
+
+
+
         }
 
         // If parsing through Visual Recognition's return has resulted in no image tags, create an "Unknown" tag.
@@ -110,22 +82,6 @@ class RecognitionResultBuilder {
     static TextView constructImageTag(LayoutInflater inflater, final String tagName, final String tagScore) {
         TextView imageTagView = (TextView)inflater.inflate(R.layout.image_tag, null);
         imageTagView.setText(tagName);
-
-        // Set an onclick listener that gives each image tag a toggle between its name and its score.
-        imageTagView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                TextView label = (TextView)v;
-                String currentText = label.getText().toString();
-
-                if (currentText.equals(tagName)) {
-                    label.setMinWidth(label.getWidth());
-                    label.setText(tagScore);
-                } else {
-                    label.setText(tagName);
-                }
-            }
-        });
 
         return imageTagView;
     }

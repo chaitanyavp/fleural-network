@@ -51,11 +51,19 @@ class RecognitionResultBuilder {
             List<VisualClassifier.VisualClass> visualClasses = classifiers.get(0).getClasses();
             if (visualClasses == null) break;
 
-            System.out.println(visualClasses.get(0).getName());
+            if(visualClasses.get(0).getScore() > 0.5) {
+                searchGoogle(visualClasses.get(0).getName());
 
-            for (VisualClassifier.VisualClass visualClass : visualClasses) {
-                String formattedScore = String.format(Locale.US, "%.0f", visualClass.getScore() * 100) + "%";
-                imageTagContainer.addView(constructImageTag(context.getLayoutInflater(), visualClass.getName(), formattedScore));
+                for (VisualClassifier.VisualClass visualClass : visualClasses) {
+                    String formattedScore = String.format(Locale.US, "%.0f", visualClass.getScore() * 100) + "%";
+                    imageTagContainer.addView(constructImageTag(context.getLayoutInflater(), visualClass.getName(), formattedScore));
+                }
+            }
+            else{
+                for (VisualClassifier.VisualClass visualClass : visualClasses) {
+                    String formattedScore = String.format(Locale.US, "%.0f", visualClass.getScore() * 100) + "%";
+                    imageTagContainer.addView(constructImageTag(context.getLayoutInflater(), "Unknown", "???"));
+                }
             }
 
 

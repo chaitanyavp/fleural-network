@@ -1,5 +1,7 @@
 package com.ibm.visual_recognition;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -126,5 +128,12 @@ class RecognitionResultBuilder {
         });
 
         return imageTagView;
+    }
+
+    private void searchGoogle(String item) {
+        String stringURI = "http://www.google.com/#q=" + item;
+        Uri uri = Uri.parse(stringURI);
+        Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+        context.startActivity(intent);
     }
 }

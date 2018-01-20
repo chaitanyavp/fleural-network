@@ -81,6 +81,9 @@ class RecognitionResultBuilder {
             for (int j = 0; j < classifiers.size(); j++) {
                 List<VisualClassifier.VisualClass> visualClasses = classifiers.get(j).getClasses();
                 if (visualClasses == null) break;
+
+                System.out.println(visualClasses.get(0));
+
                 for (VisualClassifier.VisualClass visualClass : visualClasses) {
                     String formattedScore = String.format(Locale.US, "%.0f", visualClass.getScore() * 100) + "%";
                     imageTagContainer.addView(constructImageTag(context.getLayoutInflater(), visualClass.getName(), formattedScore));

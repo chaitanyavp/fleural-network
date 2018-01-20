@@ -1,5 +1,6 @@
 package com.ibm.visual_recognition;
 
+import android.app.SearchManager;
 import android.content.Intent;
 import android.net.Uri;
 import android.view.LayoutInflater;
@@ -98,6 +99,12 @@ class RecognitionResultBuilder {
         String stringURI = "http://www.google.com/#q=" + item;
         Uri uri = Uri.parse(stringURI);
         Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+        context.startActivity(intent);
+    }
+
+    private void searchGoogle2(String item) {
+        Intent intent = new Intent(Intent.ACTION_WEB_SEARCH);
+        intent.putExtra(SearchManager.QUERY, item); // query contains search string
         context.startActivity(intent);
     }
 }

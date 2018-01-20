@@ -96,15 +96,15 @@ class RecognitionResultBuilder {
     }
 
     private void searchGoogle(String item) {
-        String stringURI = "http://www.google.com/#q=" + item;
-        Uri uri = Uri.parse(stringURI);
-        Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+        Intent intent = new Intent(Intent.ACTION_WEB_SEARCH);
+        intent.putExtra(SearchManager.QUERY, item); // query contains search string
         context.startActivity(intent);
     }
 
-    private void searchGoogle2(String item) {
-        Intent intent = new Intent(Intent.ACTION_WEB_SEARCH);
-        intent.putExtra(SearchManager.QUERY, item); // query contains search string
+    private void searchGoogleBrowser(String item) {
+        String stringURI = "http://www.google.com/#q=" + item;
+        Uri uri = Uri.parse(stringURI);
+        Intent intent = new Intent(Intent.ACTION_VIEW, uri);
         context.startActivity(intent);
     }
 }

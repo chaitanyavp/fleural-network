@@ -1,4 +1,4 @@
-![Fleural Network](README_Images/VisualRecognition.png)
+![Fleural Network](README_Images/fleuralNetwork.png)
 
 ## Fleural Network
 

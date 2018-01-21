@@ -1,6 +1,7 @@
-![VisualRecognition](README_Images/VisualRecognition.png)
+![Fleural Network](README_Images/VisualRecognition.png)
 
-## Visual Recognition
-Bluemix Mobile Starter for Visual Recognition in Java
+## Fleural Network
 
-Refer to the instructions [here](https://github.com/ibm-bluemix-mobile-services/starter-visual-recognition/blob/master/android/README.md)
+
+An android app to quickly identify and pull up information from google on flowers and various other objects. Powered by IBM Watson.
+Made for UofTHacks V (2018).

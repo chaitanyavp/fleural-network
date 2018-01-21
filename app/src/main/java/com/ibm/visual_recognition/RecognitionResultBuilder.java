@@ -25,6 +25,7 @@ import java.util.Locale;
 class RecognitionResultBuilder {
 
     private final MainActivity context;
+    int imageCount = 0;
 
     RecognitionResultBuilder(MainActivity context) {
         this.context = context;
@@ -46,29 +47,22 @@ class RecognitionResultBuilder {
         for (int i = 0; i < classifications.size(); i++) {
             List<VisualClassifier> classifiers = classifications.get(i).getClassifiers();
             if (classifiers == null) break;
+            for (int j = 0; j < classifiers.size(); j++) {
+                //if (imageCount != 0)
+                //    break;
+                List<VisualClassifier.VisualClass> visualClasses = classifiers.get(j).getClasses();
+                if (visualClasses == null) break;
 
-
-
-            List<VisualClassifier.VisualClass> visualClasses = classifiers.get(0).getClasses();
-            if (visualClasses == null) break;
-
-            if(visualClasses.get(0).getScore() > 0.5) {
                 searchGoogle(visualClasses.get(0).getName());
 
                 for (VisualClassifier.VisualClass visualClass : visualClasses) {
+                    if (imageCount != 0)
+                        break;
                     String formattedScore = String.format(Locale.US, "%.0f", visualClass.getScore() * 100) + "%";
                     imageTagContainer.addView(constructImageTag(context.getLayoutInflater(), visualClass.getName(), formattedScore));
+                    imageCount++;
                 }
             }
-            else{
-                for (VisualClassifier.VisualClass visualClass : visualClasses) {
-                    String formattedScore = String.format(Locale.US, "%.0f", visualClass.getScore() * 100) + "%";
-                    imageTagContainer.addView(constructImageTag(context.getLayoutInflater(), "Unknown", "???"));
-                }
-            }
-
-
-
         }
 
         // If parsing through Visual Recognition's return has resulted in no image tags, create an "Unknown" tag.
